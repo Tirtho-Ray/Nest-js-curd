@@ -5,7 +5,14 @@ import { TRegister } from './user.type';
 
 @Injectable()
 export class UserService {
+
     constructor (private readonly prisma : PrismaService ){}
+
+      async getUserByEmail(email: string) {
+        return this.prisma.user.findFirst({
+        where: { email },
+        });
+     }
 
     async createUser (data:TRegister){
         const user = this.prisma.user.create({data})
