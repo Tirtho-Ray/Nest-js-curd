@@ -4,6 +4,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -26,5 +27,20 @@ export class AuthService {
       message: 'User created successfully',
       data: user,
     };
+  }
+
+  async login(loginData:LoginDto){
+    const isNotExitingUser = await this.userServices.getUserByEmail(loginData.email);
+    if(!isNotExitingUser){
+        return { message:"user not found"}
+    }
+    if(isNotExitingUser.password !== loginData.password){
+        return{message:"password not match"}
+    }
+
+    return{
+        massage:"user login succfully",
+        data:isNotExitingUser
+    }
   }
 }
