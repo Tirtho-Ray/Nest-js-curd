@@ -15,8 +15,13 @@ export class UserService {
      }
 
     async createUser (data:TRegister){
-        const user = this.prisma.user.create({data})
+        const user = await this.prisma.user.create({data})
         return user;
+    }
+
+    async loginUser (){
+        const user =await this.prisma.user.findMany();
+        return user
     }
 }
 
